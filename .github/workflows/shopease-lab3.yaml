@@ -1,4 +1,4 @@
-name: ShopEase CI Pipeline - LAB 3
+name: ShopEase CI Pipeline -Lab 3 (updated) 
 
 on:
   push:
@@ -45,7 +45,7 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install -r requirements-dev.txt
 
-      # Step 4: Verify Python version
+      # Step 4: Verify Python environment
       - name: Verify Python environment
         run: |
           python --version
@@ -56,7 +56,7 @@ jobs:
         run: |
           python -m pytest -v test_app.py
 
-      # Step 6: Check Dockerfile
+      # Step 6: Validate Dockerfile
       - name: Validate Dockerfile
         run: |
           test -s Dockerfile
@@ -73,13 +73,15 @@ jobs:
           COMMIT: ${{ github.sha }}
           JOB_STATUS: ${{ job.status }}
         run: |
-          echo "## ShopEase CI Pipeline" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Property | Value |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Repository | REPOSITORY|">>"GITHUB_STEP_SUMMARY"
-          echo "| Trigger | EVENT|">>"GITHUB_STEP_SUMMARY"
-          echo "| Branch | BRANCH|">>"GITHUB_STEP_SUMMARY"
-          echo "| Commit | COMMIT|">>"GITHUB_STEP_SUMMARY"
-          echo "| Started by | ACTOR|">>"GITHUB_STEP_SUMMARY"
-          echo "| Job status | JOBSTATUS|">>"GITHUB_STEP_SUMMARY"
+          {
+            echo "## ShopEase CI Pipeline"
+            echo ""
+            echo "| Property | Value |"
+            echo "|---|---|"
+            echo "| Repository | ${REPOSITORY} |"
+            echo "| Trigger | ${EVENT} |"
+            echo "| Branch | ${BRANCH} |"
+            echo "| Commit | ${COMMIT} |"
+            echo "| Started by | ${ACTOR} |"
+            echo "| Job status | ${JOB_STATUS} |"
+          } >> "$GITHUB_STEP_SUMMARY"
